@@ -10,6 +10,8 @@ Cloud Store is a full-stack e-commerce web application built with Flask, AWS RDS
 
 ## Architecture
 
+![System Architecture](architecture/architecture.png)
+
 ### System Components
 
 The application follows a three-tier architecture with hybrid database storage:
