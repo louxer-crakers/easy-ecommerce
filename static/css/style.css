@@ -762,4 +762,55 @@ body {
     .hero-title {
         font-size: 2rem;
     }
+}/* Admin Page */
+.admin-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.admin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.product-form select {
+    width: 100%;
+    padding: 0.875rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.product-form select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.image-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius);
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 400px;
+    max-height: 300px;
+    border-radius: var(--radius);
+    margin-top: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
 }

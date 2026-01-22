@@ -40,18 +40,21 @@ function updateAuthUI() {
     const authLink = document.getElementById('auth-link');
     const logoutBtn = document.getElementById('logout-btn');
     const ordersLink = document.getElementById('orders-link');
+    const adminLink = document.getElementById('admin-link');
 
     if (token && user.name) {
         // Logged in
         authLink.style.display = 'none';
         logoutBtn.style.display = 'flex';
         if (ordersLink) ordersLink.style.display = 'flex';
+        if (adminLink) adminLink.style.display = 'flex';
         logoutBtn.innerHTML = `<i class="fas fa-user"></i> ${user.name}`;
     } else {
         // Not logged in
         authLink.style.display = 'flex';
         logoutBtn.style.display = 'none';
         if (ordersLink) ordersLink.style.display = 'none';
+        if (adminLink) adminLink.style.display = 'none';
     }
 }
 
