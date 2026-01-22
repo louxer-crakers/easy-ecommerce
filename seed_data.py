@@ -5,7 +5,6 @@ Run: python seed_data.py
 """
 from config import Config
 from aws_dynamodb import dynamodb_manager
-from aws_rds import rds_manager
 import logging
 
 logging.basicConfig(level=logging.INFO)
