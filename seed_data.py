@@ -1,6 +1,6 @@
 """
-Seed Data for Cloud Store
-Populate database with real cloud computing products
+Seed Data for Cloud Store E-Commerce
+Real products with working images
 Run: python seed_data.py
 """
 from config import Config
@@ -11,178 +11,178 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Real Cloud Computing Products with Images from Google
+# E-Commerce Products dengan Gambar yang Pasti Muncul!
 PRODUCTS = [
-    # COMPUTE PRODUCTS
+    # ELEKTRONIK & GADGET
     {
-        "product_id": "PROD-EC2-001",
+        "product_id": "PROD-LAPTOP-001",
         "category": "compute",
-        "name": "AWS EC2 t3.medium Instance",
-        "description": "General purpose virtual server dengan 2 vCPU dan 4GB RAM. Ideal untuk web applications, development environments, dan small databases. Fitur burstable performance untuk handling traffic spikes.",
-        "price": 850000,
-        "image_url": "https://d1.awsstatic.com/asset-repository/products/amazon-ec2/1024px-Amazon_Lambda_architecture_logo.svg.png",
-        "stock": 100
+        "name": "MacBook Pro 14 inch M3 Pro",
+        "description": "Laptop premium dengan chip M3 Pro yang super kencang! 16GB RAM, 512GB SSD, layar Liquid Retina XDR. Perfect untuk coding, design, dan video editing. Battery life up to 18 jam!",
+        "price": 32000000,
+        "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1697230830200",
+        "stock": 15
     },
     {
-        "product_id": "PROD-EC2-002",
+        "product_id": "PROD-LAPTOP-002",
         "category": "compute",
-        "name": "AWS EC2 t3.large Instance",
-        "description": "High-performance virtual server dengan 2 vCPU dan 8GB RAM. Perfect untuk production workloads, medium-scale applications, dan containerized services dengan traffic yang tinggi.",
-        "price": 1500000,
-        "image_url": "https://d1.awsstatic.com/Digital%20Marketing/House/Hero/products/ec2/Product-Page-Diagram_Amazon-EC2_HIW.d0e7f1688c08d27bc6e69b40e5d2efe98f864f96.png",
-        "stock": 80
+        "name": "ASUS ROG Strix G16 Gaming Laptop",
+        "description": "Beast gaming laptop! Intel Core i9, RTX 4070, 32GB RAM, 1TB SSD. QHD 240Hz display untuk gaming experience yang smooth banget. RGB keyboard customizable!",
+        "price": 28000000,
+        "image_url": "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_SX679_.jpg",
+        "stock": 12
     },
     {
-        "product_id": "PROD-LAMBDA-001",
+        "product_id": "PROD-PHONE-001",
         "category": "compute",
-        "name": "AWS Lambda Serverless Function",
-        "description": "Serverless compute service untuk menjalankan code tanpa managing servers. Pay hanya untuk compute time yang digunakan. Auto-scaling dan high availability built-in. Gratis 1 juta requests per bulan.",
-        "price": 250000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/Lambda/Diagrams/product-page-diagram_Lambda-WebApplications%202.c7f8cf38e12cb1daae9965ca048e10d676094dc1.png",
-        "stock": 999
+        "name": "iPhone 15 Pro Max 256GB",
+        "description": "Flagship iPhone terbaru! Titanium design, A17 Pro chip, camera 48MP yang incredible, USB-C, Action Button. Available in Natural Titanium, Blue Titanium, White Titanium.",
+        "price": 21000000,
+        "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692845702960",
+        "stock": 25
     },
     {
-        "product_id": "PROD-LIGHTSAIL-001",
+        "product_id": "PROD-PHONE-002",
         "category": "compute",
-        "name": "AWS Lightsail Virtual Private Server",
-        "description": "Easy-to-use VPS dengan predictable pricing. Termasuk static IP, DNS management, SSD storage, dan data transfer. Cocok untuk simple web apps, WordPress sites, dan development projects.",
-        "price": 450000,
-        "image_url": "https://d1.awsstatic.com/products/lightsail/lightsail-how-it-works-diagram.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 150
+        "name": "Samsung Galaxy S24 Ultra 512GB",
+        "description": "Android flagship dengan S-Pen! Snapdragon 8 Gen 3, 200MP camera, 6.8 inch Dynamic AMOLED display, AI features yang canggih. Gaming dan multitasking super smooth!",
+        "price": 19500000,
+        "image_url": "https://images.samsung.com/id/smartphones/galaxy-s24-ultra/buy/product_color_titanium_gray.png",
+        "stock": 20
+    },
+    {
+        "product_id": "PROD-TABLET-001",
+        "category": "compute",
+        "name": "iPad Pro 12.9 inch M2 WiFi 256GB",
+        "description": "Tablet paling powerful! M2 chip, Liquid Retina XDR display, Apple Pencil support, Magic Keyboard compatible. Cocok banget buat digital art, note-taking, dan produktivitas!",
+        "price": 17000000,
+        "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-select-wifi-spacegray-202210?wid=940&hei=1112&fmt=png-alpha&.v=1664411207213",
+        "stock": 18
     },
     
-    # STORAGE PRODUCTS
+    # GAMING & ACCESSORIES
     {
-        "product_id": "PROD-S3-001",
-        "category": "storage",
-        "name": "AWS S3 Standard Storage (1TB)",
-        "description": "Object storage untuk frequently accessed data dengan 99.999999999% durability. Ideal untuk data lakes, backup, website hosting, dan content distribution. Unlimited scalability.",
-        "price": 350000,
-        "image_url": "https://d1.awsstatic.com/s3-pdp-redesign/product-page-diagram_Amazon-S3_HIW.cf4c2bd7aa02f1fe77be8aa120393993e08ac86d.png",
-        "stock": 999
+        "product_id": "PROD-CONSOLE-001",
+        "category": "database",
+        "name": "PlayStation 5 Slim Digital Edition",
+        "description": "Next-gen gaming console! 1TB SSD, 4K gaming up to 120fps, ray tracing, DualSense controller dengan haptic feedback. Includes God of War Ragnarök!",
+        "price": 7500000,
+        "image_url": "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$facebook$",
+        "stock": 30
     },
     {
-        "product_id": "PROD-EBS-001",
-        "category": "storage",
-        "name": "AWS EBS SSD Volume (500GB)",
-        "description": "High-performance block storage untuk EC2 instances. Low-latency SSD dengan consistent performance. Perfect untuk databases, boot volumes, dan I/O intensive applications.",
-        "price": 550000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/Storage/EBS/Product-Page-Diagram_Amazon-Elastic-Block-Store.5821c6aa136ea5c6e84f9e5f2f0b8a2e8e3d7f5e.png",
-        "stock": 200
+        "product_id": "PROD-HEADSET-001",
+        "category": "database",
+        "name": "Sony WH-1000XM5 Wireless Headphones",
+        "description": "Best noise cancelling headphones! 30-hour battery life, superior sound quality, AI-powered noise cancellation, multipoint connection. Comfortable untuk listening marathon!",
+        "price": 5500000,
+        "image_url": "https://m.media-amazon.com/images/I/51K1sBp2CIL._AC_SX679_.jpg",
+        "stock": 40
     },
     {
-        "product_id": "PROD-GLACIER-001",
-        "category": "storage",
-        "name": "AWS Glacier Deep Archive (5TB)",
-        "description": "Lowest-cost cloud storage untuk long-term backup dan archival. Retrieval time 12-48 hours. Compliance-ready dengan 99.999999999% durability. Cocok untuk regulatory archives dan disaster recovery.",
-        "price": 150000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/S3/s3-glacier-deep-archive-how-it-works.8c6067896f88f882e3c6d5f4e3d7f5e8.png",
-        "stock": 999
-    },
-    {
-        "product_id": "PROD-EFS-001",
-        "category": "storage",
-        "name": "AWS EFS File System (1TB)",
-        "description": "Fully managed elastic NFS file system untuk sharing files across multiple EC2 instances. Auto-scaling storage, highly available, dan scalable performance untuk parallel workloads.",
-        "price": 900000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/Storage/EFS/product-page-diagram-amazon-efs-how-it-works.8b4ebf948b19a8c0c0e6d63d7e0b8a2e.png",
-        "stock": 100
+        "product_id": "PROD-WATCH-001",
+        "category": "database",
+        "name": "Apple Watch Series 9 GPS 45mm",
+        "description": "Smartwatch terbaik untuk iPhone users! Always-on Retina display, S9 chip, health tracking detailed, fitness features lengkap, water resistant 50m. Midnight Aluminum case!",
+        "price": 6500000,
+        "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-card-40-s9-202309?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=1693861933617",
+        "stock": 35
     },
     
-    # DATABASE PRODUCTS
+    # FASHION & LIFESTYLE
     {
-        "product_id": "PROD-RDS-001",
-        "category": "database",
-        "name": "AWS RDS PostgreSQL (db.t3.medium)",
-        "description": "Managed relational database dengan automated backups, patching, dan scaling. 2 vCPU, 4GB RAM, Multi-AZ deployment untuk high availability. ACID compliance dan complex query support.",
-        "price": 1200000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/RDS/RDS-PostgreSQL-HIW.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 75
-    },
-    {
-        "product_id": "PROD-DYNAMODB-001",
-        "category": "database",
-        "name": "AWS DynamoDB (25GB Storage)",
-        "description": "Fully managed NoSQL database dengan single-digit millisecond performance at any scale. Auto-scaling, backup and restore, global tables untuk multi-region deployment. Pay-per-request pricing.",
-        "price": 650000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/DynamoDB/product-page-diagram_Amazon-DynamoDBa.1f8742c44147f1aed11719df4a14ccdb0b13d9a3.png",
-        "stock": 999
-    },
-    {
-        "product_id": "PROD-ELASTICACHE-001",
-        "category": "database",
-        "name": "AWS ElastiCache Redis (5GB)",
-        "description": "In-memory data store dan cache untuk ultra-fast performance. Sub-millisecond latency, pub/sub messaging, dan data persistence. Ideal untuk session storage, leaderboards, dan real-time analytics.",
-        "price": 480000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/ElastiCache/product-page-diagram_Amazon-ElastiCache.8c6067896f88f882e3c6d5f4e3d7f5e8.png",
-        "stock": 120
-    },
-    {
-        "product_id": "PROD-AURORA-001",
-        "category": "database",
-        "name": "AWS Aurora MySQL (db.r5.large)",
-        "description": "MySQL-compatible database dengan performance 5x faster than MySQL. 2 vCPU, 16GB RAM, automatic failover, read replicas, dan continuous backup to S3. Enterprise-grade reliability.",
-        "price": 2500000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/Aurora/product-page-diagram_Amazon-Aurora_2x.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
+        "product_id": "PROD-SHOES-001",
+        "category": "storage",
+        "name": "Nike Air Jordan 1 Retro High OG",
+        "description": "Iconic sneakers yang timeless! Premium leather, classic colorway, comfortable untuk daily use. Hype sneakers yang never goes out of style!",
+        "price": 3200000,
+        "image_url": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-jordan-1-retro-high-og-shoes-Pz6fG9.png",
         "stock": 50
     },
+    {
+        "product_id": "PROD-SHOES-002",
+        "category": "storage",
+        "name": "Adidas Ultraboost 23 Running Shoes",
+        "description": "Running shoes paling comfortable! Boost cushioning, Primeknit upper, Continental rubber outsole. Perfect untuk running dan casual wear. Breathable banget!",
+        "price": 2800000,
+        "image_url": "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_Light_Shoes_Black_FY0378_01_standard.jpg",
+        "stock": 45
+    },
+    {
+        "product_id": "PROD-BAG-001",
+        "category": "storage",
+        "name": "Fjallraven Kanken Classic Backpack",
+        "description": "Iconic backpack dari Sweden! Durable Vinylon F fabric, water-resistant, ergonomic design, perfect size untuk laptop 15 inch. Available in 20+ colors!",
+        "price": 1500000,
+        "image_url": "https://m.media-amazon.com/images/I/81AVQPR4QvL._AC_SX679_.jpg",
+        "stock": 60
+    },
+    {
+        "product_id": "PROD-BAG-002",
+        "category": "storage",
+        "name": "Herschel Little America Backpack",
+        "description": "Stylish backpack dengan laptop sleeve! Signature striped fabric liner, magnetic strap closures, padded back panel. Cocok untuk campus, travel, dan daily use!",
+        "price": 1800000,
+        "image_url": "https://m.media-amazon.com/images/I/81qB0HJ6iuL._AC_SX679_.jpg",
+        "stock": 55
+    },
     
-    # NETWORKING PRODUCTS  
+    # HOME & LIFESTYLE
     {
-        "product_id": "PROD-VPC-001",
+        "product_id": "PROD-CAMERA-001",
         "category": "networking",
-        "name": "AWS VPC with NAT Gateway",
-        "description": "Isolated virtual network untuk AWS resources dengan complete control over IP addressing, subnets, route tables, dan network gateways. Includes NAT Gateway untuk private subnet internet access.",
-        "price": 350000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/VPC/product-page-diagram_Amazon-VPC_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 200
+        "name": "Sony Alpha A7 IV Mirrorless Camera",
+        "description": "Full-frame camera untuk content creators! 33MP sensor, 4K 60fps video, AI autofocus yang cepet banget, 5-axis stabilization. Perfect untuk photography dan videography!",
+        "price": 35000000,
+        "image_url": "https://m.media-amazon.com/images/I/81fA19Y-WCL._AC_SX679_.jpg",
+        "stock": 10
     },
     {
-        "product_id": "PROD-CLOUDFRONT-001",
+        "product_id": "PROD-SPEAKER-001",
         "category": "networking",
-        "name": "AWS CloudFront CDN (1TB Transfer)",
-        "description": "Global content delivery network dengan 225+ edge locations worldwide. Low latency, high transfer speeds, DDoS protection, SSL/TLS encryption. Perfect untuk streaming, web apps, dan API acceleration.",
-        "price": 750000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/CloudFront/product-page-diagram_CloudFront_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 999
+        "name": "JBL Charge 5 Portable Bluetooth Speaker",
+        "description": "Portable speaker dengan bass yang mantap! IP67 waterproof dan dustproof, 20-hour playtime, USB charge out for devices. Party anywhere dengan sound quality premium!",
+        "price": 2500000,
+        "image_url": "https://m.media-amazon.com/images/I/71PQJO54xnL._AC_SX679_.jpg",
+        "stock": 70
     },
     {
-        "product_id": "PROD-ALB-001",
+        "product_id": "PROD-KEYBOARD-001",
         "category": "networking",
-        "name": "AWS Application Load Balancer",
-        "description": "Layer 7 load balancing dengan advanced routing untuk HTTP/HTTPS traffic. Auto-scaling, health checks, SSL termination, dan WebSocket support. Ideal untuk microservices dan containerized apps.",
-        "price": 550000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/ElasticLoadBalancing/product-page-diagram_Elastic-Load-Balancing_ALB_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8.png",
-        "stock": 150
+        "name": "Logitech MX Keys Advanced Wireless Keyboard",
+        "description": "Best keyboard untuk productivity! Tactile typing, smart illumination, USB-C rechargeable, multi-device pairing. Comfortable typing experience untuk long sessions!",
+        "price": 1900000,
+        "image_url": "https://m.media-amazon.com/images/I/51NBdDCa3TL._AC_SX679_.jpg",
+        "stock": 50
     },
     {
-        "product_id": "PROD-ROUTE53-001",
+        "product_id": "PROD-MOUSE-001",
         "category": "networking",
-        "name": "AWS Route 53 DNS Service",
-        "description": "Highly available dan scalable DNS service dengan domain registration, health checking, dan routing policies (latency-based, geo-location, failover). 100% SLA uptime guarantee.",
-        "price": 180000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/Route53/product-page-diagram_Amazon-Route-53_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 999
+        "name": "Logitech MX Master 3S Wireless Mouse",
+        "description": "Ultimate productivity mouse! MagSpeed scrolling, 8K DPI sensor, ergonomic design, multi-device support. Silent clicks dan battery life up to 70 days!",
+        "price": 1600000,
+        "image_url": "https://m.media-amazon.com/images/I/61ni3t1ryQL._AC_SX679_.jpg",
+        "stock": 45
     },
     
     # BONUS PRODUCTS
     {
-        "product_id": "PROD-CLOUDWATCH-001",
+        "product_id": "PROD-MONITOR-001",
         "category": "compute",
-        "name": "AWS CloudWatch Monitoring",
-        "description": "Comprehensive monitoring dan observability service untuk AWS resources. Real-time logs, metrics, alarms, dashboards, dan automated actions. Monitor application performance dan operational health 24/7.",
-        "price": 320000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/CloudWatch/product-page-diagram_Amazon-CloudWatch_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8a8e3d7f5.png",
-        "stock": 999
+        "name": "LG UltraGear 27 inch 4K Gaming Monitor",
+        "description": "4K UHD gaming monitor dengan 144Hz refresh rate! NVIDIA G-Sync compatible, 1ms response time, HDR10 support. Colors yang vibrant untuk gaming dan content creation!",
+        "price": 8500000,
+        "image_url": "https://m.media-amazon.com/images/I/81JjFco7hWL._AC_SX679_.jpg",
+        "stock": 25
     },
     {
-        "product_id": "PROD-BACKUP-001",
-        "category": "storage",
-        "name": "AWS Backup Service (500GB)",
-        "description": "Centralized backup solution untuk AWS services. Automated backup schedules, lifecycle policies, cross-region backup, dan point-in-time recovery. Compliance-ready dengan immutable backups.",
-        "price": 280000,
-        "image_url": "https://d1.awsstatic.com/product-marketing/AWS%20Backup/product-page-diagram_AWS-Backup_HIW.8c6067896f88f882e3c6d5f4e3d7f5e8.png",
-        "stock": 500
+        "product_id": "PROD-GIMBAL-001",
+        "category": "networking",
+        "name": "DJI Osmo Mobile 6 Smartphone Gimbal",
+        "description": "3-axis gimbal stabilizer untuk smartphone! Built-in extension rod, magnetic clamp, ActiveTrack 5.0, long battery life. Perfect untuk vlogging dan smooth cinematic shots!",
+        "price": 1900000,
+        "image_url": "https://m.media-amazon.com/images/I/51cVPME+TJL._AC_SX679_.jpg",
+        "stock": 40
     }
 ]
 
