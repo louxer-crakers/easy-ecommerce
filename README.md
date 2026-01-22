@@ -547,30 +547,6 @@ Standard categories:
 - Check JWT_SECRET_KEY is consistent
 - Verify token expiry settings
 
-## Production Deployment
-
-### Security Checklist
-
-- [ ] Change SECRET_KEY to strong random value
-- [ ] Generate and set JWT_SECRET_KEY using provided command
-- [ ] Set DEBUG=False
-- [ ] Configure HTTPS with SSL certificate
-- [ ] Set secure CORS origins
-- [ ] Use AWS Secrets Manager for credentials
-- [ ] Enable AWS CloudWatch monitoring
-- [ ] Configure DynamoDB and RDS backups
-- [ ] Implement rate limiting
-- [ ] Add input sanitization
-
-### Performance Optimization
-
-- Configure DynamoDB auto-scaling (if not using pay-per-request)
-- Use RDS read replicas for scaling reads
-- Implement caching layer (Redis/Memcached)
-- Use CDN for static assets
-- Enable gzip compression
-- Optimize database queries
-- Implement pagination for large result sets
 
 ## License
 
