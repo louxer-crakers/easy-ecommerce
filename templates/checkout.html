@@ -119,10 +119,26 @@
         document.getElementById('checkout-total').textContent = formatCurrency(total);
     }
 
-    function populateShippingInfo() {
+    async function populateShippingInfo() {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         if (user.name) {
             document.getElementById('shipping-name').value = user.name;
+        }
+
+        // Load user profile to autofill saved address
+        try {
+            const response = await authenticatedFetch('/api/auth/verify');
+            const data = await response.json();
+
+            if (data.success && data.user) {
+                const profile = data.user;
+                if (profile.phone) document.getElementById('shipping-phone').value = profile.phone;
+                if (profile.address_street) document.getElementById('shipping-address').value = profile.address_street;
+                if (profile.address_city) document.getElementById('shipping-city').value = profile.address_city;
+                if (profile.address_postal_code) document.getElementById('shipping-postal').value = profile.address_postal_code;
+            }
+        } catch (error) {
+            console.log('Could not load saved address:', error);
         }
     }
 
@@ -146,6 +162,24 @@
         };
 
         try {
+            // Save address to profile (optional, in background)
+            try {
+                await authenticatedFetch('/api/user/address', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: shippingAddress.phone,
+                        address_street: shippingAddress.address,
+                        address_city: shippingAddress.city,
+                        address_state: '-',
+                        address_postal_code: shippingAddress.postal_code
+                    })
+                });
+            } catch (e) {
+                console.log('Address not saved to profile');
+            }
+
+            // Place order  
             const response = await fetch('/api/orders', {
                 method: 'POST',
                 headers: {

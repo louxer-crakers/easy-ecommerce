@@ -59,13 +59,18 @@ class RDSManager:
             conn = self.get_connection()
             cursor = conn.cursor()
             
-            # Create users table
+            # Create users table with shipping address fields
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS users (
                     user_id VARCHAR(50) PRIMARY KEY,
                     email VARCHAR(255) UNIQUE NOT NULL,
                     password_hash VARCHAR(255) NOT NULL,
                     name VARCHAR(255) NOT NULL,
+                    phone VARCHAR(50),
+                    address_street VARCHAR(500),
+                    address_city VARCHAR(100),
+                    address_state VARCHAR(100),
+                    address_postal_code VARCHAR(20),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
@@ -180,3 +185,36 @@ class RDSManager:
 
 # Singleton instance
 rds_manager = RDSManager()
+    def update_user_address(self, user_id, phone, address_street, address_city, address_state, address_postal_code):
+        """Update user shipping address"""
+        conn = None
+        try:
+            conn = self.get_connection()
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            
+            cursor.execute("""
+                UPDATE users
+                SET phone = %s,
+                    address_street = %s,
+                    address_city = %s,
+                    address_state = %s,
+                    address_postal_code = %s,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE user_id = %s
+                RETURNING user_id, email, name, phone, address_street, address_city, address_state, address_postal_code, created_at, updated_at
+            """, (phone, address_street, address_city, address_state, address_postal_code, user_id))
+            
+            result = cursor.fetchone()
+            conn.commit()
+            logger.info(f"User address updated: {user_id}")
+            return dict(result) if result else None
+            
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            logger.error(f"Error updating user address: {e}")
+            raise
+        finally:
+            if conn:
+                cursor.close()
+                self.return_connection(conn)

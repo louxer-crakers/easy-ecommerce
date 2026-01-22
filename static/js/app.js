@@ -38,31 +38,48 @@ function updateAuthUI() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     const authLink = document.getElementById('auth-link');
-    const logoutBtn = document.getElementById('logout-btn');
+    const userMenu = document.getElementById('user-menu');
+    const userNameDisplay = document.getElementById('user-name-display');
     const ordersLink = document.getElementById('orders-link');
     const adminLink = document.getElementById('admin-link');
 
     if (token && user.name) {
         // Logged in
         authLink.style.display = 'none';
-        logoutBtn.style.display = 'flex';
+        userMenu.style.display = 'block';
+        if (userNameDisplay) userNameDisplay.textContent = user.name;
         if (ordersLink) ordersLink.style.display = 'flex';
         if (adminLink) adminLink.style.display = 'flex';
-        logoutBtn.innerHTML = `<i class="fas fa-user"></i> ${user.name}`;
     } else {
         // Not logged in
         authLink.style.display = 'flex';
-        logoutBtn.style.display = 'none';
+        userMenu.style.display = 'none';
         if (ordersLink) ordersLink.style.display = 'none';
         if (adminLink) adminLink.style.display = 'none';
     }
 }
 
-// Logout
+// User dropdown toggle
 document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+    const userBtn = document.getElementById('user-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+
+    if (userBtn && userDropdown) {
+        userBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+        });
+    }
+
+    // Logout from dropdown
+    const logoutBtnDropdown = document.getElementById('logout-btn-dropdown');
+    if (logoutBtnDropdown) {
+        logoutBtnDropdown.addEventListener('click', () => {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             showToast('Logged out successfully', 'success');

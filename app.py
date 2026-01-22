@@ -103,6 +103,12 @@ def admin_page():
     return render_template('admin.html')
 
 
+@app.route('/profile')
+def profile_page():
+    """User profile page (requires login)"""
+    return render_template('profile.html')
+
+
 # ==================== AUTHENTICATION ENDPOINTS ====================
 
 @app.route('/api/auth/register', methods=['POST'])
@@ -591,3 +597,38 @@ if __name__ == '__main__':
         port=Config.PORT,
         debug=Config.DEBUG
     )
+
+@app.route('/api/user/address', methods=['PUT'])
+@token_required
+def update_user_address(current_user):
+    """Update user shipping address"""
+    try:
+        data = request.get_json()
+        
+        user = rds_manager.update_user_address(
+            user_id=current_user['user_id'],
+            phone=data.get('phone', ''),
+            address_street=data.get('address_street', ''),
+            address_city=data.get('address_city', ''),
+            address_state=data.get('address_state', ''),
+            address_postal_code=data.get('address_postal_code', '')
+        )
+        
+        if user:
+            return jsonify({
+                'success': True,
+                'message': 'Address updated successfully',
+                'user': user
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'error': 'User not found'
+            }), 404
+            
+    except Exception as e:
+        logger.error(f"Error updating address: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

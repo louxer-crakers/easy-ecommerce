@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-container">
+        <h1 class="page-title">My Profile</h1>
+
+        <div class="profile-grid">
+            <!-- User Info Card -->
+            <div class="profile-card">
+                <h2><i class="fas fa-user"></i> User Information</h2>
+                <div class="profile-info">
+                    <div class="info-row">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value" id="user-name">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="user-email">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Member Since:</span>
+                        <span class="info-value" id="user-joined">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Address Card -->
+            <div class="profile-card">
+                <h2><i class="fas fa-map-marker-alt"></i> Shipping Address</h2>
+                <form id="address-form">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phone" placeholder="08123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Street Address</label>
+                        <input type="text" id="address-street" placeholder="Jl. Sudirman No. 123">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="address-city" placeholder="Jakarta">
+                        </div>
+                        <div class="form-group">
+                            <label>State/Province</label>
+                            <input type="text" id="address-state" placeholder="DKI Jakarta">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" id="address-postal" placeholder="12345">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-save"></i> Save Address
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            showToast('Please login first', 'error');
+            window.location.href = '/auth';
+            return;
+        }
+
+        // Load user data
+        try {
+            const response = await authenticatedFetch('/api/auth/verify');
+            const data = await response.json();
+
+            if (data.success && data.user) {
+                const user = data.user;
+                document.getElementById('user-name').textContent = user.name;
+                document.getElementById('user-email').textContent = user.email;
+                document.getElementById('user-joined').textContent = new Date(user.created_at).toLocaleDateString('id-ID');
+
+                // Fill address if exists
+                if (user.phone) document.getElementById('phone').value = user.phone;
+                if (user.address_street) document.getElementById('address-street').value = user.address_street;
+                if (user.address_city) document.getElementById('address-city').value = user.address_city;
+                if (user.address_state) document.getElementById('address-state').value = user.address_state;
+                if (user.address_postal_code) document.getElementById('address-postal').value = user.address_postal_code;
+            }
+        } catch (error) {
+            console.error('Error loading profile:', error);
+            showToast('Failed to load profile', 'error');
+        }
+    });
+
+    // Save address
+    document.getElementById('address-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const addressData = {
+            phone: document.getElementById('phone').value,
+            address_street: document.getElementById('address-street').value,
+            address_city: document.getElementById('address-city').value,
+            address_state: document.getElementById('address-state').value,
+            address_postal_code: document.getElementById('address-postal').value
+        };
+
+        try {
+            const response = await authenticatedFetch('/api/user/address', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(addressData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast('Address saved successfully!', 'success');
+            } else {
+                showToast(data.error || 'Failed to save address', 'error');
+            }
+        } catch (error) {
+            console.error('Error saving address:', error);
+            showToast('Failed to save address', 'error');
+        }
+    });
+</script>
+{% endblock %}
