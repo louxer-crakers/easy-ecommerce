@@ -46,7 +46,7 @@ PRODUCTS = [
         "name": "Samsung Galaxy S24 Ultra 512GB",
         "description": "Android flagship dengan S-Pen! Snapdragon 8 Gen 3, 200MP camera, 6.8 inch Dynamic AMOLED display, AI features yang canggih. Gaming dan multitasking super smooth!",
         "price": 19500000,
-        "image_url": "https://images.samsung.com/id/smartphones/galaxy-s24-ultra/buy/product_color_titanium_gray.png",
+        "image_url": "https://imgs.search.brave.com/2Q8JEgbobr7RX-leL_hJmBbV6WvPK-D5xeN9QpVglhg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL3QyQUFB/T1N3VWRObUg5MkUv/cy1sOTYwLndlYnA",
         "stock": 20
     },
     {
@@ -55,7 +55,7 @@ PRODUCTS = [
         "name": "iPad Pro 12.9 inch M2 WiFi 256GB",
         "description": "Tablet paling powerful! M2 chip, Liquid Retina XDR display, Apple Pencil support, Magic Keyboard compatible. Cocok banget buat digital art, note-taking, dan produktivitas!",
         "price": 17000000,
-        "image_url": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-select-wifi-spacegray-202210?wid=940&hei=1112&fmt=png-alpha&.v=1664411207213",
+        "image_url": "https://imgs.search.brave.com/IQ16IlyYt74bzx9JdyGkmWRwMcQDnsmtOfb8A8UXpnY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL014OEFB/ZVN3SGVKcEZQbnMv/cy1sOTYwLndlYnA",
         "stock": 18
     },
     
@@ -75,7 +75,7 @@ PRODUCTS = [
         "name": "Sony WH-1000XM5 Wireless Headphones",
         "description": "Best noise cancelling headphones! 30-hour battery life, superior sound quality, AI-powered noise cancellation, multipoint connection. Comfortable untuk listening marathon!",
         "price": 5500000,
-        "image_url": "https://m.media-amazon.com/images/I/51K1sBp2CIL._AC_SX679_.jpg",
+        "image_url": "https://d1ncau8tqf99kp.cloudfront.net/converted/103364_original_local_1200x1050_v3_converted.webp",
         "stock": 40
     },
     {
@@ -113,7 +113,7 @@ PRODUCTS = [
         "name": "Fjallraven Kanken Classic Backpack",
         "description": "Iconic backpack dari Sweden! Durable Vinylon F fabric, water-resistant, ergonomic design, perfect size untuk laptop 15 inch. Available in 20+ colors!",
         "price": 1500000,
-        "image_url": "https://m.media-amazon.com/images/I/81AVQPR4QvL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/-t6aA3iMJsmfj6Y5_hTgbg-_lUtAoP_xraL1eRnfwSg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/dHJhaWxzaG9wLmNv/bS9jZG4vc2hvcC9m/aWxlcy9pbWFnZTEt/MjAyMy0wOS0xOFQx/NTE3MTcuMTQ5Lmpw/Zz92PTE2OTUwNjEy/NzEmd2lkdGg9NzIw",
         "stock": 60
     },
     {
@@ -122,7 +122,7 @@ PRODUCTS = [
         "name": "Herschel Little America Backpack",
         "description": "Stylish backpack dengan laptop sleeve! Signature striped fabric liner, magnetic strap closures, padded back panel. Cocok untuk campus, travel, dan daily use!",
         "price": 1800000,
-        "image_url": "https://m.media-amazon.com/images/I/81qB0HJ6iuL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/c_OCWO-2qvUj5G5oc6n113er80rWlQ-h1UEFtjOvtFQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDE5QlFuQTQ2aUwu/anBn",
         "stock": 55
     },
     
@@ -133,7 +133,7 @@ PRODUCTS = [
         "name": "Sony Alpha A7 IV Mirrorless Camera",
         "description": "Full-frame camera untuk content creators! 33MP sensor, 4K 60fps video, AI autofocus yang cepet banget, 5-axis stabilization. Perfect untuk photography dan videography!",
         "price": 35000000,
-        "image_url": "https://m.media-amazon.com/images/I/81fA19Y-WCL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/qn8C7fXk3509uw5NKI75CiCW84DbHVwe-HVz0jVtqG0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly82YXZl/LmNvbS9jZG4vc2hv/cC9maWxlcy9zb25h/N200YmstZ18zLmpw/Zz92PTE3NDE4NDQ5/NTUmd2lkdGg9MzAw",
         "stock": 10
     },
     {
@@ -142,7 +142,7 @@ PRODUCTS = [
         "name": "JBL Charge 5 Portable Bluetooth Speaker",
         "description": "Portable speaker dengan bass yang mantap! IP67 waterproof dan dustproof, 20-hour playtime, USB charge out for devices. Party anywhere dengan sound quality premium!",
         "price": 2500000,
-        "image_url": "https://m.media-amazon.com/images/I/71PQJO54xnL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/xpB663m_Hc1FrF8c4izaja05V_nRCS78wSLMKlF5BYI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzgxeXBMMm9xSzlM/LmpwZw",
         "stock": 70
     },
     {
@@ -151,7 +151,7 @@ PRODUCTS = [
         "name": "Logitech MX Keys Advanced Wireless Keyboard",
         "description": "Best keyboard untuk productivity! Tactile typing, smart illumination, USB-C rechargeable, multi-device pairing. Comfortable typing experience untuk long sessions!",
         "price": 1900000,
-        "image_url": "https://m.media-amazon.com/images/I/51NBdDCa3TL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/OBNUWwfdmxxkujGeO1GJ7XtQ4QXrY94OoWhD9Ndxt30/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9sb2dp/dGVjaC5vbmxpbmVz/YWxlc3RvcmUucGsv/Y2RuL3Nob3AvZmls/ZXMvTG9naXRlY2gt/TVgtS2V5cy1QbHVz/LUtleWJvYXJkLTky/MC0wMDk0MTYtcHJv/ZHVjdC1pbWFnZS10/aWx0ZWQtdmlld182/MDB4LmpwZz92PTE3/MDMwNjg2OTg",
         "stock": 50
     },
     {
@@ -171,7 +171,7 @@ PRODUCTS = [
         "name": "LG UltraGear 27 inch 4K Gaming Monitor",
         "description": "4K UHD gaming monitor dengan 144Hz refresh rate! NVIDIA G-Sync compatible, 1ms response time, HDR10 support. Colors yang vibrant untuk gaming dan content creation!",
         "price": 8500000,
-        "image_url": "https://m.media-amazon.com/images/I/81JjFco7hWL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/CuYdNpGPLJs_BjyCr086qZog4FLIgCAHJSZrUqBwiAk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxNlpPUzVibm5M/LmpwZw",
         "stock": 25
     },
     {
@@ -180,7 +180,7 @@ PRODUCTS = [
         "name": "DJI Osmo Mobile 6 Smartphone Gimbal",
         "description": "3-axis gimbal stabilizer untuk smartphone! Built-in extension rod, magnetic clamp, ActiveTrack 5.0, long battery life. Perfect untuk vlogging dan smooth cinematic shots!",
         "price": 1900000,
-        "image_url": "https://m.media-amazon.com/images/I/51cVPME+TJL._AC_SX679_.jpg",
+        "image_url": "https://imgs.search.brave.com/i2_kB8FC7RJ6IoAcKE1bN1a9FLknajDMIqGlzc7QNjA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzUxN2VjSW4tcnVM/LmpwZw",
         "stock": 40
     }
 ]
