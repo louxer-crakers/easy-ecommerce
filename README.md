@@ -86,18 +86,16 @@ Stores products and transactional data:
 ### RDS PostgreSQL Schema
 
 #### Users Table
-```sql
-CREATE TABLE users (
-    user_id VARCHAR(50) PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
-CREATE INDEX idx_users_email ON users(email);
-```
+**Structure:**
+- `user_id` (VARCHAR 50, Primary Key)
+- `email` (VARCHAR 255, Unique, Indexed)
+- `password_hash` (VARCHAR 255)
+- `name` (VARCHAR 255)
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
+
+**Note:** Table is automatically created on first run by `aws_rds.py`
 
 ### DynamoDB Schema
 

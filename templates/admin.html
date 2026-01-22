@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Add Product{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="admin-container">
+        <h1 class="page-title">Add New Product</h1>
+
+        <div class="admin-card">
+            <form id="add-product-form" class="product-form">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="product-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="product-category" required>
+                        <option value="">-- Select Category --</option>
+                        <option value="compute">Compute</option>
+                        <option value="storage">Storage</option>
+                        <option value="database">Database</option>
+                        <option value="networking">Networking</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="product-description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price (IDR) *</label>
+                        <input type="number" id="product-price" min="0" step="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock *</label>
+                        <input type="number" id="product-stock" min="0" value="0" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Image URL (from internet) *</label>
+                    <input type="url" id="product-image" placeholder="https://example.com/image.png" required>
+                    <small>Paste image URL from internet (e.g. from Google Images, AWS docs, etc.)</small>
+                </div>
+
+                <div class="image-preview" id="image-preview" style="display: none;">
+                    <p>Image Preview:</p>
+                    <img id="preview-img" src="" alt="Preview">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                    <a href="/" class="btn btn-secondary btn-full">
+                        <i class="fas fa-arrow-left"></i> Back to Products
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Check if user is logged in
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showToast('Please login to access admin panel', 'error');
+            setTimeout(() => window.location.href = '/auth', 1500);
+            return;
+        }
+    });
+
+    // Image preview
+    document.getElementById('product-image').addEventListener('input', (e) => {
+        const url = e.target.value;
+        const preview = document.getElementById('image-preview');
+        const img = document.getElementById('preview-img');
+
+        if (url && url.startsWith('http')) {
+            img.src = url;
+            img.onload = () => {
+                preview.style.display = 'block';
+            };
+            img.onerror = () => {
+                preview.style.display = 'none';
+                showToast('Invalid image URL', 'error');
+            };
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+
+    // Form submission
+    document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showToast('Please login first', 'error');
+            window.location.href = '/auth';
+            return;
+        }
+
+        const name = document.getElementById('product-name').value;
+        const category = document.getElementById('product-category').value;
+        const description = document.getElementById('product-description').value;
+        const price = parseFloat(document.getElementById('product-price').value);
+        const stock = parseInt(document.getElementById('product-stock').value);
+        const image_url = document.getElementById('product-image').value;
+
+        const productData = {
+            name,
+            category,
+            description,
+            price,
+            stock,
+            image_url
+        };
+
+        try {
+            const response = await fetch('/api/admin/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(productData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast('Product added successfully!', 'success');
+                setTimeout(() => window.location.href = '/', 2000);
+            } else {
+                showToast(data.error || 'Failed to add product', 'error');
+            }
+        } catch (error) {
+            console.error('Error adding product:', error);
+            showToast('Failed to add product', 'error');
+        }
+    });
+</script>
+{% endblock %}

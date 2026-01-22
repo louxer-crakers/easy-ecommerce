@@ -39,6 +39,19 @@ def initialize_databases():
         logger.info("Creating DynamoDB tables (Products, Orders, Cart)...")
         dynamodb_manager.create_tables_if_not_exist()
         
+        # Auto-seed products if empty
+        try:
+            products = dynamodb_manager.get_all_products()
+            if not products or len(products) == 0:
+                logger.info("No products found. Auto-loading seed data...")
+                from seed_data import seed_products
+                seed_products()
+                logger.info("✓ Products loaded successfully!")
+            else:
+                logger.info(f"Found {len(products)} existing products")
+        except Exception as e:
+            logger.warning(f"Could not auto-seed products: {e}")
+        
         logger.info("All databases initialized successfully!")
         
     except Exception as e:
@@ -82,6 +95,12 @@ def auth_page():
 def orders_page():
     """Order history page (requires login)"""
     return render_template('orders.html')
+
+
+@app.route('/admin')
+def admin_page():
+    """Admin page for adding products (requires login)"""
+    return render_template('admin.html')
 
 
 # ==================== AUTHENTICATION ENDPOINTS ====================
@@ -307,6 +326,7 @@ def create_product(current_user):
                     'error': f'{field} is required'
                 }), 400
         
+        # Generate product ID
         product_id = f"PROD-{uuid.uuid4().hex[:8].upper()}"
         
         product = dynamodb_manager.create_product(
@@ -315,7 +335,7 @@ def create_product(current_user):
             description=data['description'],
             price=data['price'],
             category=data['category'],
-            image_url=data.get('image_url', ''),
+            image_url=data.get('image_url', 'https://via.placeholder.com/300x200?text=Product'),
             stock=data.get('stock', 0)
         )
         
