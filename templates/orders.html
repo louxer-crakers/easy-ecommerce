@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - Cloud Store{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="orders-container">
+        <h1 class="page-title">My Orders</h1>
+
+        <div class="orders-list" id="orders-list">
+            <div class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading orders...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check authentication
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/auth';
+            return;
+        }
+
+        loadOrders();
+    });
+
+    async function loadOrders() {
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch('/api/orders', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                displayOrders(data.data);
+            } else {
+                showToast('Failed to load orders', 'error');
+            }
+        } catch (error) {
+            console.error('Error loading orders:', error);
+            showToast('Error loading orders', 'error');
+        }
+    }
+
+    function displayOrders(orders) {
+        const container = document.getElementById('orders-list');
+
+        if (orders.length === 0) {
+            container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h2>No orders yet</h2>
+                <p>Start shopping and your orders will appear here!</p>
+                <a href="/" class="btn btn-primary">Start Shopping</a>
+            </div>
+        `;
+            return;
+        }
+
+        container.innerHTML = orders.map(order => `
+        <div class="order-card">
+            <div class="order-header">
+                <div>
+                    <h3>Order #${order.order_id}</h3>
+                    <p class="order-date">${new Date(order.created_at).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })}</p>
+                </div>
+                <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span>
+            </div>
+            <div class="order-items">
+                ${order.items.map(item => `
+                    <div class="order-item">
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>${formatCurrency(item.price * item.quantity)}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="order-footer">
+                <div class="order-address">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${order.shipping_address.city}, ${order.shipping_address.postal_code}
+                </div>
+                <div class="order-total">
+                    <strong>Total: ${formatCurrency(order.total_amount)}</strong>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - Cloud Store{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="cart-container">
+        <h1 class="page-title">Shopping Cart</h1>
+
+        <div class="cart-content">
+            <div class="cart-items" id="cart-items">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading cart...</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">Rp 0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (11%)</span>
+                    <span id="tax">Rp 0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="total">Rp 0</span>
+                </div>
+                <button class="btn btn-primary btn-full" id="checkout-btn">
+                    <i class="fas fa-lock"></i> Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let cart = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCart();
+    });
+
+    function loadCart() {
+        cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        displayCart();
+        updateSummary();
+    }
+
+    function displayCart() {
+        const container = document.getElementById('cart-items');
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Your cart is empty</h2>
+                <p>Add some awesome products to your cart!</p>
+                <a href="/" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        `;
+            return;
+        }
+
+        container.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+            <img src="${item.image_url || 'https://via.placeholder.com/100'}" alt="${item.name}">
+            <div class="item-details">
+                <h3>${item.name}</h3>
+                <p class="item-price">${formatCurrency(item.price)}</p>
+            </div>
+            <div class="item-quantity">
+                <button onclick="updateQuantity(${index}, -1)"><i class="fas fa-minus"></i></button>
+                <span>${item.quantity}</span>
+                <button onclick="updateQuantity(${index}, 1)"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="item-total">
+                ${formatCurrency(item.price * item.quantity)}
+            </div>
+            <button class="btn-remove" onclick="removeItem(${index})">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `).join('');
+    }
+
+    function updateQuantity(index, delta) {
+        cart[index].quantity += delta;
+
+        if (cart[index].quantity <= 0) {
+            removeItem(index);
+            return;
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCart();
+        updateSummary();
+        updateCartCount();
+    }
+
+    function removeItem(index) {
+        const itemName = cart[index].name;
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCart();
+        updateSummary();
+        updateCartCount();
+        showToast(`${itemName} removed from cart`, 'success');
+    }
+
+    function updateSummary() {
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const tax = subtotal * 0.11;
+        const total = subtotal + tax;
+
+        document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+        document.getElementById('tax').textContent = formatCurrency(tax);
+        document.getElementById('total').textContent = formatCurrency(total);
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+        if (cart.length === 0) {
+            showToast('Your cart is empty', 'error');
+            return;
+        }
+
+        // Check if logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+            sessionStorage.setItem('returnUrl', '/checkout');
+            showToast('Please login to checkout', 'error');
+            setTimeout(() => window.location.href = '/auth', 1500);
+            return;
+        }
+
+        window.location.href = '/checkout';
+    });
+</script>
+{% endblock %}

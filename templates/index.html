@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Cloud Store - Premium Cloud Products{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Cloud Store</h1>
+            <p class="hero-subtitle">Premium cloud computing products at your fingertips</p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-controls">
+            <button class="filter-btn active" data-category="all">All Products</button>
+            <button class="filter-btn" data-category="compute">Compute</button>
+            <button class="filter-btn" data-category="storage">Storage</button>
+            <button class="filter-btn" data-category="database">Database</button>
+            <button class="filter-btn" data-category="networking">Networking</button>
+        </div>
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Search products...">
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="products-grid" id="products-grid">
+            <div class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading products...</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let allProducts = [];
+    let currentCategory = 'all';
+
+    // Load products on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProducts();
+        setupFilters();
+        setupSearch();
+    });
+
+    async function loadProducts() {
+        try {
+            const response = await fetch('/api/products');
+            const data = await response.json();
+
+            if (data.success) {
+                allProducts = data.data;
+                displayProducts(allProducts);
+            } else {
+                showToast('Failed to load products', 'error');
+            }
+        } catch (error) {
+            console.error('Error loading products:', error);
+            showToast('Error loading products', 'error');
+        }
+    }
+
+    function displayProducts(products) {
+        const grid = document.getElementById('products-grid');
+
+        if (products.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><p>No products found</p></div>';
+            return;
+        }
+
+        grid.innerHTML = products.map(product => `
+        <div class="product-card" data-category="${product.category}">
+            <div class="product-image">
+                <img src="${product.image_url || 'https://via.placeholder.com/300x200?text=Product'}" 
+                     alt="${product.name}">
+                ${product.stock > 0 ? '' : '<div class="out-of-stock-badge">Out of Stock</div>'}
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-description">${truncate(product.description, 80)}</p>
+                <div class="product-footer">
+                    <span class="product-price">${formatCurrency(product.price)}</span>
+                    <button class="btn btn-primary btn-small" 
+                            onclick="addToCart('${product.product_id}')"
+                            ${product.stock === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    }
+
+    function setupFilters() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter products
+                const category = btn.dataset.category;
+                currentCategory = category;
+                filterProducts();
+            });
+        });
+    }
+
+    function setupSearch() {
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+            filterProducts();
+        });
+    }
+
+    function filterProducts() {
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+        let filtered = allProducts;
+
+        // Filter by category
+        if (currentCategory !== 'all') {
+            filtered = filtered.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
+        }
+
+        // Filter by search term
+        if (searchTerm) {
+            filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(searchTerm) ||
+                p.description.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        displayProducts(filtered);
+    }
+
+    async function addToCart(productId) {
+        const product = allProducts.find(p => p.product_id === productId);
+        if (!product) return;
+
+        // Get current cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+        // Check if product already in cart
+        const existingItem = cart.find(item => item.product_id === productId);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                product_id: productId,
+                name: product.name,
+                price: product.price,
+                image_url: product.image_url,
+                quantity: 1
+            });
+        }
+
+        // Save to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Update cart count
+        updateCartCount();
+
+        showToast(`${product.name} added to cart!`, 'success');
+    }
+
+    function truncate(str, maxLength) {
+        if (str.length > maxLength) {
+            return str.substring(0, maxLength) + '...';
+        }
+        return str;
+    }
+</script>
+{% endblock %}

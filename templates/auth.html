@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Login / Register - Cloud Store{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form-container active" id="login-form-container">
+                <h2>Welcome Back</h2>
+                <p class="auth-subtitle">Login to continue shopping</p>
+
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form-container" id="register-form-container">
+                <h2>Create Account</h2>
+                <p class="auth-subtitle">Join us and start shopping</p>
+
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="register-password" required>
+                        <small>Minimum 6 characters</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tab switching
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+
+            // Update tabs
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Update forms
+            document.querySelectorAll('.auth-form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById(`${tabName}-form-container`).classList.add('active');
+        });
+    });
+
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                showToast('Login successful!', 'success');
+
+                // Redirect based on where user came from
+                const returnUrl = sessionStorage.getItem('returnUrl') || '/';
+                sessionStorage.removeItem('returnUrl');
+                setTimeout(() => window.location.href = returnUrl, 1000);
+            } else {
+                showToast(data.error || 'Login failed', 'error');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showToast('Login failed', 'error');
+        }
+    });
+
+    // Register form
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('register-name').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                showToast('Registration successful!', 'success');
+
+                const returnUrl = sessionStorage.getItem('returnUrl') || '/';
+                sessionStorage.removeItem('returnUrl');
+                setTimeout(() => window.location.href = returnUrl, 1000);
+            } else {
+                showToast(data.error || 'Registration failed', 'error');
+            }
+        } catch (error) {
+            console.error('Register error:', error);
+            showToast('Registration failed', 'error');
+        }
+    });
+
+    // Check if already logged in
+    if (localStorage.getItem('token')) {
+        window.location.href = '/';
+    }
+</script>
+{% endblock %}
