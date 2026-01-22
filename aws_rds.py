@@ -176,15 +176,6 @@ class RDSManager:
                 cursor.close()
                 self.return_connection(conn)
     
-    def close_all_connections(self):
-        """Close all connections in the pool"""
-        if self.connection_pool:
-            self.connection_pool.closeall()
-            logger.info("All RDS connections closed")
-
-
-# Singleton instance
-rds_manager = RDSManager()
     def update_user_address(self, user_id, phone, address_street, address_city, address_state, address_postal_code):
         """Update user shipping address"""
         conn = None
@@ -218,3 +209,13 @@ rds_manager = RDSManager()
             if conn:
                 cursor.close()
                 self.return_connection(conn)
+
+    def close_all_connections(self):
+        """Close all connections in the pool"""
+        if self.connection_pool:
+            self.connection_pool.closeall()
+            logger.info("All RDS connections closed")
+
+
+# Singleton instance
+rds_manager = RDSManager()
