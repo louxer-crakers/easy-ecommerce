@@ -15,7 +15,7 @@ PRODUCTS = [
     # ELEKTRONIK & GADGET
     {
         "product_id": "PROD-LAPTOP-001",
-        "category": "compute",
+        "category": "electronics",
         "name": "MacBook Pro 14 inch M3 Pro",
         "description": "Laptop premium dengan chip M3 Pro yang super kencang! 16GB RAM, 512GB SSD, layar Liquid Retina XDR. Perfect untuk coding, design, dan video editing. Battery life up to 18 jam!",
         "price": 32000000,
@@ -24,7 +24,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-LAPTOP-002",
-        "category": "compute",
+        "category": "electronics",
         "name": "ASUS ROG Strix G16 Gaming Laptop",
         "description": "Beast gaming laptop! Intel Core i9, RTX 4070, 32GB RAM, 1TB SSD. QHD 240Hz display untuk gaming experience yang smooth banget. RGB keyboard customizable!",
         "price": 28000000,
@@ -33,7 +33,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-PHONE-001",
-        "category": "compute",
+        "category": "electronics",
         "name": "iPhone 15 Pro Max 256GB",
         "description": "Flagship iPhone terbaru! Titanium design, A17 Pro chip, camera 48MP yang incredible, USB-C, Action Button. Available in Natural Titanium, Blue Titanium, White Titanium.",
         "price": 21000000,
@@ -42,7 +42,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-PHONE-002",
-        "category": "compute",
+        "category": "electronics",
         "name": "Samsung Galaxy S24 Ultra 512GB",
         "description": "Android flagship dengan S-Pen! Snapdragon 8 Gen 3, 200MP camera, 6.8 inch Dynamic AMOLED display, AI features yang canggih. Gaming dan multitasking super smooth!",
         "price": 19500000,
@@ -51,7 +51,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-TABLET-001",
-        "category": "compute",
+        "category": "electronics",
         "name": "iPad Pro 12.9 inch M2 WiFi 256GB",
         "description": "Tablet paling powerful! M2 chip, Liquid Retina XDR display, Apple Pencil support, Magic Keyboard compatible. Cocok banget buat digital art, note-taking, dan produktivitas!",
         "price": 17000000,
@@ -62,7 +62,7 @@ PRODUCTS = [
     # GAMING & ACCESSORIES
     {
         "product_id": "PROD-CONSOLE-001",
-        "category": "database",
+        "category": "gaming",
         "name": "PlayStation 5 Slim Digital Edition",
         "description": "Next-gen gaming console! 1TB SSD, 4K gaming up to 120fps, ray tracing, DualSense controller dengan haptic feedback. Includes God of War Ragnarök!",
         "price": 7500000,
@@ -71,7 +71,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-HEADSET-001",
-        "category": "database",
+        "category": "gaming",
         "name": "Sony WH-1000XM5 Wireless Headphones",
         "description": "Best noise cancelling headphones! 30-hour battery life, superior sound quality, AI-powered noise cancellation, multipoint connection. Comfortable untuk listening marathon!",
         "price": 5500000,
@@ -80,7 +80,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-WATCH-001",
-        "category": "database",
+        "category": "gaming",
         "name": "Apple Watch Series 9 GPS 45mm",
         "description": "Smartwatch terbaik untuk iPhone users! Always-on Retina display, S9 chip, health tracking detailed, fitness features lengkap, water resistant 50m. Midnight Aluminum case!",
         "price": 6500000,
@@ -91,7 +91,7 @@ PRODUCTS = [
     # FASHION & LIFESTYLE
     {
         "product_id": "PROD-SHOES-001",
-        "category": "storage",
+        "category": "fashion",
         "name": "Nike Air Jordan 1 Retro High OG",
         "description": "Iconic sneakers yang timeless! Premium leather, classic colorway, comfortable untuk daily use. Hype sneakers yang never goes out of style!",
         "price": 3200000,
@@ -100,7 +100,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-SHOES-002",
-        "category": "storage",
+        "category": "fashion",
         "name": "Adidas Ultraboost 23 Running Shoes",
         "description": "Running shoes paling comfortable! Boost cushioning, Primeknit upper, Continental rubber outsole. Perfect untuk running dan casual wear. Breathable banget!",
         "price": 2800000,
@@ -109,7 +109,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-BAG-001",
-        "category": "storage",
+        "category": "fashion",
         "name": "Fjallraven Kanken Classic Backpack",
         "description": "Iconic backpack dari Sweden! Durable Vinylon F fabric, water-resistant, ergonomic design, perfect size untuk laptop 15 inch. Available in 20+ colors!",
         "price": 1500000,
@@ -118,7 +118,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-BAG-002",
-        "category": "storage",
+        "category": "fashion",
         "name": "Herschel Little America Backpack",
         "description": "Stylish backpack dengan laptop sleeve! Signature striped fabric liner, magnetic strap closures, padded back panel. Cocok untuk campus, travel, dan daily use!",
         "price": 1800000,
@@ -129,7 +129,7 @@ PRODUCTS = [
     # HOME & LIFESTYLE
     {
         "product_id": "PROD-CAMERA-001",
-        "category": "networking",
+        "category": "accessories",
         "name": "Sony Alpha A7 IV Mirrorless Camera",
         "description": "Full-frame camera untuk content creators! 33MP sensor, 4K 60fps video, AI autofocus yang cepet banget, 5-axis stabilization. Perfect untuk photography dan videography!",
         "price": 35000000,
@@ -138,7 +138,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-SPEAKER-001",
-        "category": "networking",
+        "category": "accessories",
         "name": "JBL Charge 5 Portable Bluetooth Speaker",
         "description": "Portable speaker dengan bass yang mantap! IP67 waterproof dan dustproof, 20-hour playtime, USB charge out for devices. Party anywhere dengan sound quality premium!",
         "price": 2500000,
@@ -147,7 +147,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-KEYBOARD-001",
-        "category": "networking",
+        "category": "accessories",
         "name": "Logitech MX Keys Advanced Wireless Keyboard",
         "description": "Best keyboard untuk productivity! Tactile typing, smart illumination, USB-C rechargeable, multi-device pairing. Comfortable typing experience untuk long sessions!",
         "price": 1900000,
@@ -156,7 +156,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-MOUSE-001",
-        "category": "networking",
+        "category": "accessories",
         "name": "Logitech MX Master 3S Wireless Mouse",
         "description": "Ultimate productivity mouse! MagSpeed scrolling, 8K DPI sensor, ergonomic design, multi-device support. Silent clicks dan battery life up to 70 days!",
         "price": 1600000,
@@ -167,7 +167,7 @@ PRODUCTS = [
     # BONUS PRODUCTS
     {
         "product_id": "PROD-MONITOR-001",
-        "category": "compute",
+        "category": "electronics",
         "name": "LG UltraGear 27 inch 4K Gaming Monitor",
         "description": "4K UHD gaming monitor dengan 144Hz refresh rate! NVIDIA G-Sync compatible, 1ms response time, HDR10 support. Colors yang vibrant untuk gaming dan content creation!",
         "price": 8500000,
@@ -176,7 +176,7 @@ PRODUCTS = [
     },
     {
         "product_id": "PROD-GIMBAL-001",
-        "category": "networking",
+        "category": "accessories",
         "name": "DJI Osmo Mobile 6 Smartphone Gimbal",
         "description": "3-axis gimbal stabilizer untuk smartphone! Built-in extension rod, magnetic clamp, ActiveTrack 5.0, long battery life. Perfect untuk vlogging dan smooth cinematic shots!",
         "price": 1900000,
