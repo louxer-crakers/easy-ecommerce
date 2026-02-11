@@ -383,7 +383,7 @@ For temporary credentials (AWS STS, EC2 instance roles, etc.), set the `AWS_SESS
 - Session token support for temporary credentials
 - No hardcoded credentials in code
 
-## EC2 Deployment Guide
+## EC2 Deployment Guide (Amazon Linux)
 
 ### Recommended Instance Type: t3.medium
 
@@ -401,79 +401,157 @@ For temporary credentials (AWS STS, EC2 instance roles, etc.), set the `AWS_SESS
 
 ### Deployment Steps
 
-1. **Launch EC2 Instance**
-```bash
-# Instance Type: t3.medium
-# AMI: Ubuntu Server 22.04 LTS
-# Storage: 20 GB GP3
-# Security Group: Allow ports 22 (SSH), 80 (HTTP), 443 (HTTPS)
+#### 1. Launch EC2 Instance
+
+```
+Instance Type : t3.medium
+AMI           : Amazon Linux 2023 (al2023-ami)
+Storage       : 20 GB GP3
+Security Group: Allow ports 22 (SSH), 80 (HTTP), 443 (HTTPS), 5000 (Flask dev)
 ```
 
-2. **Connect and Setup**
+#### 2. Connect and Install Dependencies
+
 ```bash
-ssh -i your-key.pem ubuntu@your-ec2-ip
+ssh -i your-key.pem ec2-user@your-ec2-ip
 
 # Update system
-sudo apt update && sudo apt upgrade -y
+sudo dnf update -y
 
-# Install Python and dependencies
-sudo apt install python3-pip python3-venv nginx -y
-
-# Clone your repository
-git clone your-repo-url
-cd your-project
-
-# Setup virtual environment
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# Install Python 3.13, pip, git, and nginx
+sudo dnf install python3.13 python3.13-pip git nginx -y
 ```
 
-3. **Configure Environment**
+#### 3. Clone Repository and Install Python Packages
+
 ```bash
-# Copy and edit .env
+cd /home/ec2-user
+git clone https://github.com/your-username/easy-ecommerce.git
+cd easy-ecommerce
+
+# Install dependencies (globally or use venv)
+sudo pip3.13 install -r requirements.txt
+```
+
+#### 4. Configure Environment Variables
+
+```bash
 cp .env.example .env
 nano .env
-
-# Set all credentials and configuration
 ```
 
-4. **Setup Systemd Service**
+Set semua konfigurasi (AWS credentials, RDS, JWT secret, dll).
+
+#### 5. Test Run (Manual)
+
+```bash
+python3.13 app.py
+```
+
+Pastikan app berjalan tanpa error, lalu `Ctrl+C` untuk stop.
+
+---
+
+### Setup Systemd Service
+
+Dengan systemd, aplikasi akan **otomatis jalan saat boot** dan **auto-restart** kalau crash.
+
+#### 1. Buat file service
+
 ```bash
 sudo nano /etc/systemd/system/cloudstore.service
 ```
 
-Add:
+Isi dengan konfigurasi berikut:
+
 ```ini
 [Unit]
 Description=Cloud Store E-Commerce Application
 After=network.target
 
 [Service]
-User=ubuntu
-WorkingDirectory=/home/ubuntu/your-project
-Environment="PATH=/home/ubuntu/your-project/venv/bin"
-ExecStart=/home/ubuntu/your-project/venv/bin/python app.py
+Type=simple
+User=root
+WorkingDirectory=/home/ec2-user/easy-ecommerce
+ExecStart=/usr/bin/python3.13 app.py
 Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-5. **Start Service**
+> **Catatan:** Jika menggunakan virtual environment, ganti `ExecStart` menjadi:
+> ```
+> ExecStart=/home/ec2-user/easy-ecommerce/venv/bin/python app.py
+> ```
+
+#### 2. Aktifkan dan Jalankan Service
+
 ```bash
+# Reload systemd agar mengenali service baru
 sudo systemctl daemon-reload
+
+# Aktifkan agar jalan otomatis saat boot
 sudo systemctl enable cloudstore
+
+# Jalankan service
 sudo systemctl start cloudstore
+
+# Cek status
 sudo systemctl status cloudstore
 ```
 
-6. **Configure Nginx (Optional)**
+#### 3. Perintah Management Service
+
 ```bash
-sudo nano /etc/nginx/sites-available/cloudstore
+# Lihat status service
+sudo systemctl status cloudstore
+
+# Stop service
+sudo systemctl stop cloudstore
+
+# Restart service (setelah update kode)
+sudo systemctl restart cloudstore
+
+# Lihat log secara realtime
+sudo journalctl -u cloudstore -f
+
+# Lihat 50 baris log terakhir
+sudo journalctl -u cloudstore -n 50
+
+# Disable auto-start saat boot
+sudo systemctl disable cloudstore
 ```
 
-Add:
+#### 4. Workflow Update Kode
+
+Setelah push perubahan dari lokal, jalankan di server:
+
+```bash
+cd /home/ec2-user/easy-ecommerce
+git pull
+sudo systemctl restart cloudstore
+
+# Verifikasi berjalan normal
+sudo systemctl status cloudstore
+```
+
+---
+
+### Setup Nginx Reverse Proxy (Opsional)
+
+Nginx berfungsi sebagai reverse proxy agar app bisa diakses via port 80 (HTTP).
+
+#### 1. Konfigurasi Nginx
+
+```bash
+sudo nano /etc/nginx/conf.d/cloudstore.conf
+```
+
+Isi:
+
 ```nginx
 server {
     listen 80;
@@ -483,13 +561,29 @@ server {
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /static/ {
+        alias /home/ec2-user/easy-ecommerce/static/;
+        expires 7d;
+        add_header Cache-Control "public, immutable";
     }
 }
 ```
 
+#### 2. Aktifkan Nginx
+
 ```bash
-sudo ln -s /etc/nginx/sites-available/cloudstore /etc/nginx/sites-enabled/
+# Test konfigurasi
 sudo nginx -t
+
+# Start dan enable nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+# Reload setelah perubahan config
 sudo systemctl reload nginx
 ```
 
