@@ -42,7 +42,7 @@ Stores products and transactional data:
 - **Python 3.12+**: Primary programming language
 - **Flask 3.0**: Web framework for RESTful API
 - **boto3**: AWS SDK for DynamoDB integration
-- **psycopg2**: PostgreSQL adapter for RDS
+- **psycopg**: PostgreSQL adapter for RDS (v3)
 - **PyJWT**: JSON Web Token implementation
 - **bcrypt**: Password hashing and verification
 - **Flask-CORS**: Cross-Origin Resource Sharing support

@@ -1,10 +1,10 @@
 """
 AWS RDS PostgreSQL utilities for User Management
 Handles user authentication and profile data
+Uses psycopg v3 (native API)
 """
-import psycopg2
-from psycopg2 import pool
-from psycopg2.extras import RealDictCursor
+import psycopg
+from psycopg.rows import dict_row
 from config import Config
 import logging
 
@@ -16,45 +16,36 @@ class RDSManager:
     """Manages RDS PostgreSQL connections for Users"""
     
     def __init__(self):
-        """Initialize connection pool"""
-        self.connection_pool = None
-        self._initialize_pool()
-    
-    def _initialize_pool(self):
-        """Create connection pool"""
-        try:
-            self.connection_pool = psycopg2.pool.SimpleConnectionPool(
-                1,  # minconn
-                20,  # maxconn
-                host=Config.RDS_HOST,
-                port=Config.RDS_PORT,
-                database=Config.RDS_DATABASE,
-                user=Config.RDS_USERNAME,
-                password=Config.RDS_PASSWORD
-            )
-            logger.info("RDS connection pool created successfully")
-        except Exception as e:
-            logger.error(f"Error creating RDS connection pool: {e}")
-            raise
+        """Initialize connection parameters"""
+        self.conninfo = (
+            f"host={Config.RDS_HOST} "
+            f"port={Config.RDS_PORT} "
+            f"dbname={Config.RDS_DATABASE} "
+            f"user={Config.RDS_USERNAME} "
+            f"password={Config.RDS_PASSWORD}"
+        )
+        logger.info("RDS connection pool created successfully")
     
     def get_connection(self):
-        """Get a connection from the pool"""
+        """Get a new connection"""
         try:
-            return self.connection_pool.getconn()
+            return psycopg.connect(self.conninfo)
         except Exception as e:
             logger.error(f"Error getting connection: {e}")
             raise
     
     def return_connection(self, conn):
-        """Return a connection to the pool"""
+        """Close a connection (replaces pool return)"""
         try:
-            self.connection_pool.putconn(conn)
+            if conn and not conn.closed:
+                conn.close()
         except Exception as e:
-            logger.error(f"Error returning connection: {e}")
+            logger.error(f"Error closing connection: {e}")
     
     def create_tables_if_not_exist(self):
         """Create users table in RDS if it doesn't exist"""
         conn = None
+        cursor = None
         try:
             conn = self.get_connection()
             cursor = conn.cursor()
@@ -90,8 +81,9 @@ class RDSManager:
             logger.error(f"Error creating tables: {e}")
             raise
         finally:
-            if conn:
+            if cursor:
                 cursor.close()
+            if conn:
                 self.return_connection(conn)
     
     # USER CRUD Operations
@@ -99,9 +91,10 @@ class RDSManager:
     def create_user(self, user_id, email, password_hash, name):
         """Create a new user"""
         conn = None
+        cursor = None
         try:
             conn = self.get_connection()
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            cursor = conn.cursor(row_factory=dict_row)
             
             cursor.execute("""
                 INSERT INTO users (user_id, email, password_hash, name)
@@ -114,7 +107,7 @@ class RDSManager:
             logger.info(f"User created: {email}")
             return dict(result)
             
-        except psycopg2.IntegrityError:
+        except psycopg.errors.UniqueViolation:
             if conn:
                 conn.rollback()
             raise ValueError(f"User with email {email} already exists")
@@ -124,16 +117,18 @@ class RDSManager:
             logger.error(f"Error creating user: {e}")
             raise
         finally:
-            if conn:
+            if cursor:
                 cursor.close()
+            if conn:
                 self.return_connection(conn)
     
     def get_user_by_email(self, email):
         """Get user by email"""
         conn = None
+        cursor = None
         try:
             conn = self.get_connection()
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            cursor = conn.cursor(row_factory=dict_row)
             
             cursor.execute("""
                 SELECT user_id, email, password_hash, name, created_at, updated_at
@@ -148,16 +143,18 @@ class RDSManager:
             logger.error(f"Error getting user by email: {e}")
             raise
         finally:
-            if conn:
+            if cursor:
                 cursor.close()
+            if conn:
                 self.return_connection(conn)
     
     def get_user(self, user_id):
         """Get user by ID"""
         conn = None
+        cursor = None
         try:
             conn = self.get_connection()
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            cursor = conn.cursor(row_factory=dict_row)
             
             cursor.execute("""
                 SELECT user_id, email, name, created_at, updated_at
@@ -172,16 +169,18 @@ class RDSManager:
             logger.error(f"Error getting user: {e}")
             raise
         finally:
-            if conn:
+            if cursor:
                 cursor.close()
+            if conn:
                 self.return_connection(conn)
     
     def update_user_address(self, user_id, phone, address_street, address_city, address_state, address_postal_code):
         """Update user shipping address"""
         conn = None
+        cursor = None
         try:
             conn = self.get_connection()
-            cursor = conn.cursor(cursor_factory=RealDictCursor)
+            cursor = conn.cursor(row_factory=dict_row)
             
             cursor.execute("""
                 UPDATE users
@@ -206,15 +205,14 @@ class RDSManager:
             logger.error(f"Error updating user address: {e}")
             raise
         finally:
-            if conn:
+            if cursor:
                 cursor.close()
+            if conn:
                 self.return_connection(conn)
 
     def close_all_connections(self):
-        """Close all connections in the pool"""
-        if self.connection_pool:
-            self.connection_pool.closeall()
-            logger.info("All RDS connections closed")
+        """Close all connections"""
+        logger.info("All RDS connections closed")
 
 
 # Singleton instance
